@@ -31,11 +31,21 @@ Widget::Widget(QWidget *parent)
     //信号也可以连接信号
     void(Teacher::*teacherSigna2)() = &Teacher::hungry;
     void(Student::*StudenTreat2)() = &Student::treat;
-    //connect(tea,teacherSigna2,st,StudenTreat2);//信号和槽连接
+    connect(tea,teacherSigna2,st,StudenTreat2);//信号和槽连接
     //connect(btn,&QPushButton::clicked,tea,teacherSigna2);//信号和信号连接
 
     //下课，学生主动请老师吃饭
     connect(btn,&QPushButton::clicked,st,StudenTreat2);
+
+    //实现点击按钮关闭操作
+    QPushButton *btn1 = new QPushButton("关闭按钮",this);
+    btn1->resize(100,30);
+    btn1->move(100,0);
+    connect(btn1,&QPushButton::clicked,this,[=](){
+        //emit tea->hungry("宫保鸡丁");
+        //this->close();
+        btn1->setText("失败了");
+    });
 }
 
 void Widget::classIsOver()

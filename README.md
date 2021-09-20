@@ -8,7 +8,7 @@
     + 有很好的社区氛围
     + 可以进行嵌入式开发
 
-
+# QWidget
 ### QT注意事项
 * 命名规范
     + 类名 首字母大写，单词和单词之间首字母大写
@@ -62,5 +62,76 @@
     + 信号和槽重载，需要函数指针，明确指向函数的地址
     + QString 转char * 使用.toUtf8().data()
     + 信号和槽连接：触发这个信号才能触发槽
+        * 一个信号可以连接多个槽
+        * 多个信号也可以连接同一个槽函数
+        * 信号和槽的参数和类型必须对应
+        * 信号的参数个数可以多于槽的参数个数
     + 信号和信号连接 触发一个信号也能触发另外一个信号
     + 断开信号 disconnect(参数一样)
+
+### Lambda表达式
+* C++11版本特性 [CONFIG += c++11] 匿名函数对象
+    * Lambda表达式函数声明 [](){}
+        + [=] 允许使用局部变量
+        + [&] 允许使用引用传递变量
+        + [变量] 允许变量使用值传递
+        + mutable 可修改值传递进来的参数[虽然还是局部变量]
+            + [m]()mutable{m+=100;打印}; 不加mutable会报错
+        + ->类型 带返回值
+            + int ret = []()->int{return 1000}();
+    * Lambda表达式函数调用 [](){}()
+    * 最常见的[=](){}
+
+# MainWindow
+### 菜单栏 QMenuBar
+    * 菜单栏最多只能有一个
+        + QMenuBar * bar = menuBar(); setMenuBar(bar);
+        + 创建菜单
+            * QMenu * fileMenu = bar->addMenu("文件");
+                + 创建菜单栏目
+                    * QAction * newAction =  fileMenu->addAction("新建");
+                + 添加分隔符 
+                    * fileMenu->addSeparator();
+
+### 工具栏 QToolBar
+    * 工具栏可以有多个
+        + QToolBar * toolBar = new QToolBar(this);  
+        + addToolBar(toolBar);
+            * 可选参数 默认停靠范围
+                + addToolBar(Qt::BottomToolBarArea,toolBar);
+            * 只允许左右停靠
+                + toolBar->setAllowedAreas(Qt::LeftToolBarArea | Qt::RightToolBarArea);
+            * 取消浮动
+                + toolBar->setFloatable(false);
+            * 设置禁止移动
+                + toolBar->setMovable(false);
+            * 给工具栏设置栏目
+                + toolBar->addAction("绝了"或者QAction);
+            * 给工具栏添加控件
+                + toolBar->addWidget(QPushButton按钮);
+
+### 状态栏 QStatusBar
+    * 状态栏最多只能有一个
+        + QStatusBar * stBar = statusBar();
+        + setStatusBar(stBar);
+            * 添加标签控件
+                + QLabel * label = new QLabel("左侧提示的信息",this);
+                + QLabel * label1 = new QLabel("右侧提示的信息",this);
+                + stBar->addWidget(label);
+                + stBar->addPermanentWidget(label1);
+
+### 铆接部件 QDockWidget
+    * 铆接部件可以有多个
+        + QDockWidget * dockWidget = new QDockWidget("浮动",this);
+        + addDockWidget(Qt::BottomDockWidgetArea,dockWidget); 放置位置下面 如果没有中心部件默认占满
+            + 只允许上下
+                    * dockWidget->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);  
+
+### 中心部件
+    * 中心内容也只能有一个
+        + 文本窗口 QTextEdit
+            + QTextEdit * edit = new QTextEdit(this);
+            + setCentralWidget(edit); //设置中心部件
+
+### 小总结
+    + 只能有一个的是set 可以允许多个是add
