@@ -133,5 +133,45 @@
             + QTextEdit * edit = new QTextEdit(this);
             + setCentralWidget(edit); //设置中心部件
 
+### 资源文件
+1. 将图片文件文件夹拷贝到项目下
+2. 右键项目->添加新文件->Qt->Qt recourse File
+3. res 生成 res.qrc
+4. 右键res.qrc->open in editor 编辑资源
+5. 添加前缀 添加文件
+6. 使用 ": + 前缀名 + 文件名"
+
 ### 小总结
     + 只能有一个的是set 可以允许多个是add
+
+### 对话框
+* 分类 
+    + 模态对话框 不可以对其他窗口进行操作
+        * QDialog dlg(this);
+        * dlg.exec();
+        * 消息对话框
+            + 错误对话框 QMessageBox::critical(this,"critical","错误");
+            + 信息对话框 information
+            + 提问对话框 question
+            + 警告对话框warning
+            + 颜色对话框
+                + QColor a = QColorDialog::getColor(QColor(255,0,0));
+            + 文件对话框 最后一个是过滤
+                + QString str = QFileDialog::getOpenFileName(this,"打开文件","./","(*.cpp)");
+            + 字体对话框
+            + bool flag;
+                + QFont font = QFontDialog::getFont(&flag,QFont("华文彩云",12));
+                + setFont(font);//设置字体
+    + 非模态对话框 可以对其他窗口进行操作
+        * QDialog *dlg2 = new QDialog(this); //为了确保不释放,开在堆上
+        * dlg2->show();
+        * dlg2->setAttribute(Qt::WA_DeleteOnClose);//55号 用于按关闭键自动释放[QWidge的对象树是在关闭总的窗口才会全部释放]
+
+### 列表控件 listWidget
++ QListWidgetItem * item = new QListWidgetItem("锄禾日当午");
++ ui->listWidget->addItem(item); //添加进去
++ item->setTextAlignment(Qt::AlignCenter); //居中
+
+### ui窗口自布局
+1. Spacers 弹簧 Widget div盒子
+2. Group Box 分组[适用于Radio Button]
