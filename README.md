@@ -175,3 +175,16 @@
 ### ui窗口自布局
 1. Spacers 弹簧 Widget div盒子
 2. Group Box 分组[适用于Radio Button]
+3. 主窗口设置垂直布局后可以在sizePolicy->垂直策略->Fixed来使组件高度合适
+4. 如果找不到某个组件的信号或者槽，找基类
+
+### 自定义组件
+1. add new -> 设计师类
+2. 使用自定义组件
+    * 查看基类[如widget] 从界面库中拖出来一个widget组件,然后点击提升为,写入类名
+        + [设置全局后可以直接在右键中显示]
+
+
+### QT事件 QEvent 
+* enterEvent 鼠标进入事件  
+    + leaveEvent 鼠标离开事件
