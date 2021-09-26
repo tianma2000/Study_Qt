@@ -145,27 +145,26 @@
     + 只能有一个的是set 可以允许多个是add
 
 ### 对话框
-* 分类 
-    + 模态对话框 不可以对其他窗口进行操作
-        * QDialog dlg(this);
-        * dlg.exec();
-        * 消息对话框
-            + 错误对话框 QMessageBox::critical(this,"critical","错误");
-            + 信息对话框 information
-            + 提问对话框 question
-            + 警告对话框warning
-            + 颜色对话框
-                + QColor a = QColorDialog::getColor(QColor(255,0,0));
-            + 文件对话框 最后一个是过滤
-                + QString str = QFileDialog::getOpenFileName(this,"打开文件","./","(*.cpp)");
-            + 字体对话框
++ 模态对话框 不可以对其他窗口进行操作
+    * QDialog dlg(this);
+    * dlg.exec();
+    * 消息对话框
+        + 错误对话框 QMessageBox::critical(this,"critical","错误");
+        + 信息对话框 information
+        + 提问对话框 question
+        + 警告对话框warning
+        + 颜色对话框
+            + QColor a = QColorDialog::getColor(QColor(255,0,0));
+        + 文件对话框 最后一个是过滤
+            + QString str = QFileDialog::getOpenFileName(this,"打开文件","./","(*.cpp)");
+        + 字体对话框
             + bool flag;
-                + QFont font = QFontDialog::getFont(&flag,QFont("华文彩云",12));
-                + setFont(font);//设置字体
-    + 非模态对话框 可以对其他窗口进行操作
-        * QDialog *dlg2 = new QDialog(this); //为了确保不释放,开在堆上
-        * dlg2->show();
-        * dlg2->setAttribute(Qt::WA_DeleteOnClose);//55号 用于按关闭键自动释放[QWidge的对象树是在关闭总的窗口才会全部释放]
+            + QFont font = QFontDialog::getFont(&flag,QFont("华文彩云",12));
+            + setFont(font);//设置字体
++ 非模态对话框 可以对其他窗口进行操作
+    * QDialog *dlg2 = new QDialog(this); //为了确保不释放,开在堆上
+    * dlg2->show();
+    * dlg2->setAttribute(Qt::WA_DeleteOnClose);//55号 用于按关闭键自动释放[QWidge的对象树是在关闭总的窗口才会全部释放]
 
 ### 列表控件 listWidget
 + QListWidgetItem * item = new QListWidgetItem("锄禾日当午");
@@ -183,8 +182,83 @@
 2. 使用自定义组件
     * 查看基类[如widget] 从界面库中拖出来一个widget组件,然后点击提升为,写入类名
         + [设置全局后可以直接在右键中显示]
-
+3 自定义组件只有同基类才能被提升
 
 ### QT事件 QEvent 
-* enterEvent 鼠标进入事件  
-    + leaveEvent 鼠标离开事件
+* 鼠标事件
+    + 事件是虚函数,可以进行重载  
+    //鼠标进入事件  
+    virtual void enterEvent(QEvent *event);  
+    //鼠标离开事件  
+    virtual void leaveEvent(QEvent *event);  
+    //鼠标按下  
+    virtual void mouseMoveEvent(QMouseEvent *ev);  
+    //鼠标释放  
+    virtual void mousePressEvent(QMouseEvent *ev);  
+    //鼠标移动  
+    virtual void mouseReleaseEvent(QMouseEvent *ev);  
+
+* 定时器 QTimeEvent
+    + 利用事件实现定时器
+        + startTimer(1000); 启动定时器，单位毫秒,返回一个唯一定时器id
+        + void timerEvent(QTimerEvent * ev)
+            * 定时器函数,可以通过ev->timerId()== id1来判断当前是哪个id进来的
+    + 定时器类QTimer
+        +   
+    //通过定时器类  
+    QTimer * timer = new QTimer(this);  
+    //启动定时器 每隔500秒发一个信号  
+    timer->start(500);  
+    //连接信号  
+    connect(timer,&QTimer::timeout,中括号小括号{  
+        static int num = 1;  
+        ui->label_5->setText(QString::number(num++));  
+    });  
+
+* event事件分发器
+    + bool event(QEvent * ev)
+        * 返回值是bool类型，如果返回true，代表用户要处理这个事件,不向下分发事件了[类似于钩子]
+    + 事件枚举QEvent
+        * ev.type();
+        * 拦截后使用子类的操作可以使用静态类型转换
+            + QMouseEvent *ev = static_cast<QMouseEvent *>(QEvent中行参);
+    + 但是尽量别拦截
+
+* 事件过滤器
+    + 在app到事件分发器前还能做个过滤
+    + 使用方式
+        + 给控件安装时间过滤器
+            + installEventFilter(this);
+        + 重写eventfilter事件
+
+### 绘图 QPainter 
++ 画家类 QPainter(构图的设备)
+    + 拿起笔 .setPen(笔)
+    + 拿起刷子 .setBrush(刷子)
++ 画笔类 QPen(笔的颜色)
++ 画刷类 QBrush(笔的颜色)
++ 高级操作
+    + 效率降低的抗锯齿
+        + painter.setRenderHint()
+    + 改变画家位置
+        + painter.save();保存当前位置
+        + painter.restore(); 还原到保存的位置
+        + painter.translate(); 移动画家
+    + 画家绘制图片drawPixmap
+
+### 绘图设备
++ QPixmap 专门对图像显示做了优化
++ QBitmap 色深限定为1
++ QImage 专门为图像的像素级访问做了优化
++ QPicture 可以记录和重视画家的QPainter的各类命令
+
+
+
+
+
+
+
+
+
+
+

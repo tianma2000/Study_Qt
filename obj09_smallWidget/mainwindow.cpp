@@ -10,14 +10,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     srand(unsigned(time(NULL)));
     //点击获取值
+
     connect(ui->btnget,&QPushButton::clicked,ui->widget,[=](){
         //ui->widget->getNum();
         QMessageBox::information(this,"提示框",QString::number(ui->widget->getNum()));
     });
+
     //点击设置值
     connect(ui->btnset,&QPushButton::clicked,ui->widget,[=](){
         ui->widget->setNum(rand() % 99);
     });
+
 }
 
 MainWindow::~MainWindow()
