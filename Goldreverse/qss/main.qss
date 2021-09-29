@@ -1,0 +1,22 @@
+#my_index_button{
+    border:0;
+}
+
+MyPushButtons{
+    border:0;
+}
+MyCoin{
+    border:0;
+}
+
+#my_label_text_center{
+    color:rgba(27, 27, 27, 0.75);
+    font-size: 24px;
+    font-family:"镊子面包手指体";
+    font-weight:800;
+}
+
+MyCoin::indicator{
+    border: 10px white solid;
+}
+

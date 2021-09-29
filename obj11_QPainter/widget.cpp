@@ -10,9 +10,10 @@ Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
-
+    srand(time(nullptr));
     posx = 0;
     ui->setupUi(this);
+    randApple();
     //点击按钮移动图片
     connect(ui->pushButton,&QPushButton::clicked,[=](){
         posFlag = 1;
@@ -64,6 +65,14 @@ Widget::Widget(QWidget *parent) :
     });
 }
 
+void Widget::randApple()
+{
+    int QW = QPixmap(":/3.gif").width();
+    int QH = QPixmap(":/3.gif").height();
+    while((appleposx = rand() % this->width() - QW) < 0);
+    while((appleposy = rand() % this->height() - QH) < 0);
+}
+
 void Widget::paintEvent(QPaintEvent *p)
 {
     //test01(p);
@@ -100,8 +109,20 @@ void Widget::paintEvent(QPaintEvent *p)
     {
         stx = posx;
         sty = posy;
+        //appleposx= 0;
+        //appleposy = 0;
+        qDebug() << QString("蛇x: %1 y: %2 ,苹果x: %3 y: %4").arg(stx).arg(sty).arg(appleposx).arg(appleposy);
+        if(stx >= appleposx - QW && stx <= appleposx+ QW && sty >= appleposy - QW&& sty <= appleposy + QH)
+        {
+            possize++;
+            randApple();
+        }
+        else
+        {
+            painter.drawPixmap(appleposx,appleposy,QPixmap(":/4.gif"));
+        }
 
-        qDebug() << quex;
+        //qDebug() << quex;
         //画家画画
         painter.drawPixmap(posx,posy,QPixmap(":/3.gif"));
         quex.push_back(posx);

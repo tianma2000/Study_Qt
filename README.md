@@ -192,11 +192,11 @@
     //鼠标离开事件  
     virtual void leaveEvent(QEvent *event);  
     //鼠标按下  
-    virtual void mouseMoveEvent(QMouseEvent *ev);  
+    virtual void mouseReleaseEvent(QMouseEvent *ev);  
     //鼠标释放  
     virtual void mousePressEvent(QMouseEvent *ev);  
     //鼠标移动  
-    virtual void mouseReleaseEvent(QMouseEvent *ev);  
+    virtual void mouseMoveEvent(QMouseEvent *ev);  
 
 * 定时器 QTimeEvent
     + 利用事件实现定时器
@@ -232,6 +232,7 @@
         + 重写eventfilter事件
 
 ### 绘图 QPainter 
++ 绘图事件 void paintEvent(QPaintEvent *)
 + 画家类 QPainter(构图的设备)
     + 拿起笔 .setPen(笔)
     + 拿起刷子 .setBrush(刷子)
@@ -251,6 +252,79 @@
 + QBitmap 色深限定为1
 + QImage 专门为图像的像素级访问做了优化
 + QPicture 可以记录和重视画家的QPainter的各类命令
+    + 自定义绘图操作 
+
+
+### 文件读写 QFile
++ file.open(打开方式) QtODevice::readOnly
++ 全部读取 file.readAll() 按行读 file.readLine() 判断文件末尾atend()
++ QFile默认支持的是utf-8 指定格式 QTextCodec
+    + QTextCodec *codec = QTextCodec::codecForName("gbk");
+    + ui->textEdit->setText(codec->toUnicode(array)); 
++ 关闭文件对象 file.close();
+
+### 文件信息 QFileInfo
++ QFileInfo info(path);
++ 后缀名 info.suffix()
++ 创建日期 info.birthTime().toString("yyyy/MM/dd hh:mm:ss");
++ 修改日期 info.lastModified().toString("yyyy/MM/dd hh:mm:ss");
+
+### Qss 前端人狂喜
++ #myButton 这里的id实际上就是objectName指定的值
++ 伪状态
+    + :active 当小部件驻留在活动窗口中时，将设置此状态
+    + :checked	该控件被选中时候的状态
+    + :hover	鼠标在控件上方
+    + :pressed	该控件被按下时的状态
+    + :disabled	该控件禁用时的状态
+    + :first	该控件是第一个（列表中）
+    + :focus	该控件有输入焦点时
+
+### 动画 QPropertyAnimation
+//winLabel 你要对那个组件使用动画  geometry几何结构  
+QPropertyAnimation * an = new QPropertyAnimation(winLabel,"geometry");  
+//动画时间  
+an->setDuration(1000);  
+//动画开始
+an->setStartValue(QRect(winLabel->x(),winLabel->y(),winLabel->width(),winLabel->height()));  
+//动画结束  
+an->setEndValue(QRect(winLabel->x(),winLabel->y() + 300,winLabel->width(),winLabel->height()));  
+//动画方式  
+an->setEasingCurve(QEasingCurve::OutBounce);  
+an->start();  
+
+### 背景音乐 QSound
+* qmake: QT += multimedia
+* QSound * startSound = new QSound(":/res/TapButtonSound.wav",this); 载入音效
+* startSound->play(); 播放
+* startSound->setLoops(-1); -1循环次数无限
+
+### 打包发布
+* debug->release
+* 运行 运行失败添加环境变量D:\QT\5.12.3\mingw73_64\lib
+* 把 Goldreverse.exe 单独丢到一个文件夹下
+* cmd中路径后windeployqt .\Goldreverse.exe 运行
+* 此时已经可以使用了
+* 深入打包[hm nis edit][https://www.bilibili.com/video/BV1g4411H78N?p=63&spm_id_from=pageDriver]
+* HM NIS Edit 和 NSIS
+
+### 案例:翻金币
++ 收获
+    1. 删除资源文件后需要删除debug文件,不然会报错
+    2. 同一个函数的实现和声明只有一个有默认参数
+    3. 界面的切换可以使用信号和槽 即其它界面emit发送一个信号,主界面接收
+        + 当然也可以选择记录父类指针,但是必须要在构造函数中多传个参数，而不是使用默认的parent
+    4. 在按钮上方有其他组件，可以使用label->setAttribute(Qt::WA_TransparentForMouseEvents);让其可以点到按钮[51号属性]
+    5. 界面翻转金币 本质上是个按钮 
+        + 人点击后 
+        + 金币触发翻转
+        + 定时器每隔30ms发送一次信号给金币
+        + 金币触发图片重新放置,到最大值或者最小值的时候关闭定时器
+        + 金币中有坐标i 和 j 以及一个flag 来确定该金币在页面中的位置
+    6. 锁定窗口 m_chooseScence->setGeometry(this->geometry()); 每次进入或者退出都锁定他的位置
++ 延时器
+    QTimer::singleShot(毫秒,拉姆达表达式);
+
 
 
 
