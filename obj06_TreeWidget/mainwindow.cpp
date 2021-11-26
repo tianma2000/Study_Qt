@@ -2,12 +2,22 @@
 #include "ui_mainwindow.h"
 #include <QString>
 #include <QTreeWidgetItem>
+#include <QFile>
+#include <QTextStream>
+#include <QStyle>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QFile file(":/1.qss");
+    file.open(QFile::ReadOnly);
+    QTextStream filetext(&file);
+    QString stylesheet = filetext.readAll();
+    this->setStyleSheet(stylesheet);
+    file.close();
     //树控件的使用
     //设置水平头
     ui->treeWidget->setHeaderLabels(QStringList() << "食物" << "食物简介");
@@ -35,6 +45,12 @@ MainWindow::MainWindow(QWidget *parent) :
     item3->addChild(item8);
     QTreeWidgetItem * item9 = new QTreeWidgetItem(QStringList()<< "鸡肉" << "2.5格饱食度");
     item3->addChild(item9);
+
+    QStringList s;
+    s << "苹果" << "栗子" << "西瓜" << "粒子" << "鸽子" << "鸡肉";
+    ui->comboBox->addItems(s);
+
+
 }
 
 MainWindow::~MainWindow()

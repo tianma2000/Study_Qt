@@ -182,7 +182,7 @@
 2. 使用自定义组件
     * 查看基类[如widget] 从界面库中拖出来一个widget组件,然后点击提升为,写入类名
         + [设置全局后可以直接在右键中显示]
-3 自定义组件只有同基类才能被提升
+        3 自定义组件只有同基类才能被提升
 
 ### QT事件 QEvent 
 * 鼠标事件
@@ -205,15 +205,15 @@
             * 定时器函数,可以通过ev->timerId()== id1来判断当前是哪个id进来的
     + 定时器类QTimer
         +   
-    //通过定时器类  
-    QTimer * timer = new QTimer(this);  
-    //启动定时器 每隔500秒发一个信号  
-    timer->start(500);  
-    //连接信号  
-    connect(timer,&QTimer::timeout,中括号小括号{  
+        //通过定时器类  
+        QTimer * timer = new QTimer(this);  
+        //启动定时器 每隔500秒发一个信号  
+        timer->start(500);  
+        //连接信号  
+        connect(timer,&QTimer::timeout,中括号小括号{  
         static int num = 1;  
         ui->label_5->setText(QString::number(num++));  
-    });  
+        });  
 
 * event事件分发器
     + bool event(QEvent * ev)
@@ -311,7 +311,6 @@ an->start();
 ### 案例:翻金币
 + 收获
     1. 删除资源文件后需要删除debug文件,不然会报错
-    2. 同一个函数的实现和声明只有一个有默认参数
     3. 界面的切换可以使用信号和槽 即其它界面emit发送一个信号,主界面接收
         + 当然也可以选择记录父类指针,但是必须要在构造函数中多传个参数，而不是使用默认的parent
     4. 在按钮上方有其他组件，可以使用label->setAttribute(Qt::WA_TransparentForMouseEvents);让其可以点到按钮[51号属性]
@@ -336,3 +335,5 @@ an->start();
 
 
 
+
+[https://www.bilibili.com/video/BV1g4411H78N?p=63&spm_id_from=pageDriver]: 

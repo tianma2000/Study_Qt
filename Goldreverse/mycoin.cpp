@@ -35,7 +35,6 @@ MyCoin::MyCoin(QString btnImg)
         this->setStyleSheet("QPushButton{border:0px;}");/*设置不规则图片样式*/
         this->setIcon(pix);
         this->setIconSize(QSize(pix.width(),pix.height()));
-
         //判断如果翻完了 将min 重置为1
         if(this->min>this->max)
         {

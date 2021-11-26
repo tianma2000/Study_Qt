@@ -97,6 +97,14 @@ void chooselevelscene::sotsPlaytoCloose()
 //游戏胜利的情况
 void chooselevelscene::sotsGotoNext(int index)
 {
+    if(index == 20)
+    {
+        this->setGeometry(m_playScena->geometry());
+        this->show();
+        delete m_playScena;
+        m_playScena = nullptr;
+        return;
+    }
     qDebug() << "接收到了信息";
     //this->show();
     QRect a = m_playScena->geometry();

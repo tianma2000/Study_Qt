@@ -29,6 +29,7 @@ void Mainscenario::mainInit()
     this->setFixedSize(320,588);
     //设置应用图片
     this->setWindowIcon(QPixmap(":/res/Coin0001.png"));
+
     //设置窗口标题
     this->setWindowTitle("翻金币");
 
