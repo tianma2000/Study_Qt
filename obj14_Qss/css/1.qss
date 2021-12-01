@@ -10,6 +10,8 @@
     color: red;
 }
 
+
+
 #pushButton:pressed{
 color:#3288E8;
 border-color: #3288E8;
